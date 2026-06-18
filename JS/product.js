@@ -686,7 +686,7 @@ function updateActionButtons() {
   const missingColor = hasColors && !selectedColor;
 
   let msg = '';
-  if (missingModel && missingColor) msg = 'Sélectionnez le modèle et la couleur';
+  if (missingModel && missingColor) msg = 'Choisissez une Couler ou modèle ';
   else if (missingModel) msg = 'Panier';
   else if (missingColor) msg = 'Acheter';
 
@@ -696,7 +696,7 @@ function updateActionButtons() {
       addBtn.innerHTML = `<i class="fas fa-exclamation-circle"></i><span>${msg}</span>`;
     } else {
       addBtn.disabled = false;
-      addBtn.innerHTML = `<i class="fas fa-cart-plus"></i><span>Ajouter au panier</span>`;
+      addBtn.innerHTML = `<i class="fas fa-cart-plus"></i><span>Panier</span>`;
     }
   }
 
@@ -706,14 +706,14 @@ function updateActionButtons() {
       buyBtn.innerHTML = `<i class="fas fa-exclamation-circle"></i><span>${msg}</span>`;
     } else {
       buyBtn.disabled = false;
-      buyBtn.innerHTML = `<i class="fas fa-bolt"></i><span>Acheter maintenant</span>`;
+      buyBtn.innerHTML = `<i class="fas fa-bolt"></i><span>Acheter</span>`;
     }
   }
 
   if (mobileAddBtn) {
     if (missingModel || missingColor) {
       mobileAddBtn.disabled = true;
-      mobileAddBtn.innerHTML = `<i class="fas fa-exclamation-circle"></i><span>${msg}</span>`;
+      mobileAddBtn.innerHTML = `<i class="fas fa-exclamation-circle"></i><span>Panier</span>`;
     } else {
       mobileAddBtn.disabled = false;
       mobileAddBtn.innerHTML = `<i class="fas fa-cart-plus"></i><span>Panier</span>`;
@@ -723,7 +723,7 @@ function updateActionButtons() {
   if (mobileBuyBtn) {
     if (missingModel || missingColor) {
       mobileBuyBtn.disabled = true;
-      mobileBuyBtn.innerHTML = `<i class="fas fa-exclamation-circle"></i><span>${msg}</span>`;
+      mobileBuyBtn.innerHTML = `<i class="fas fa-exclamation-circle"></i><span>Acheter</span>`;
     } else {
       mobileBuyBtn.disabled = false;
       mobileBuyBtn.innerHTML = `<i class="fas fa-bolt"></i><span>Acheter</span>`;
