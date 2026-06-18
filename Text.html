@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Video Hero Section</title>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    body{
+      font-family:Inter,sans-serif;
+      background:#ffffff;
+      overflow-x:hidden;
+    }
+
+    /* HERO */
+    .hero{
+      position:relative;
+      width:100%;
+      height:60vh;
+      display:flex;
+      align-items:center;
+      justify-content:left;
+      overflow:hidden;
+    }
+
+    /* VIDEO */
+    .hero video{
+      position:absolute;
+      top:50%;
+      left:50%;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      transform:translate(-50%,-50%);
+      z-index:1;
+    }
+
+    /* DARK OVERLAY */
+    .overlay{
+      position:absolute;
+      inset:0;
+      background:
+      linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0),
+        rgba(0, 0, 0, 0),
+        rgba(0, 0, 0, 0)
+      );
+      z-index:2;
+    }
+
+    /* CONTENT */
+    .hero-content{
+      position:relative;
+      z-index:3;
+      text-align:left;
+      color:white;
+      padding:20px;
+      max-width:900px;
+      animation:fadeUp 1s ease;
+    }
+
+    .hero-content h1{
+      font-size:clamp(3rem,8vw,7rem);
+      font-weight:800;
+      line-height:1;
+      letter-spacing:-3px;
+      margin-bottom:20px;
+
+      background:linear-gradient(to right,#fff,#cfcfcf);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+    }
+
+    .hero-content p{
+      font-size:1.15rem;
+      line-height:1.8;
+      color:#e4e4e4;
+      max-width:700px;
+      margin:auto auto 35px;
+    }
+
+    /* BUTTON */
+    .hero-btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:16px 34px;
+      border-radius:999px;
+      background:white;
+      color:black;
+      text-decoration:none;
+      font-weight:700;
+      font-size:1rem;
+      transition:.35s ease;
+      box-shadow:0 10px 30px rgba(255,255,255,.2);
+    }
+
+    .hero-btn:hover{
+      transform:translateY(-4px) scale(1.03);
+      background:#d9d9d9;
+      box-shadow:0 15px 40px rgba(255,255,255,.3);
+    }
+
+    /* FLOATING BLUR */
+    .blur{
+      position:absolute;
+      width:400px;
+      height:400px;
+      border-radius:50%;
+      background:rgba(255,255,255,.08);
+      filter:blur(100px);
+      z-index:2;
+      animation:float 8s ease-in-out infinite;
+    }
+
+    .blur1{
+      top:-100px;
+      left:-100px;
+    }
+
+    .blur2{
+      bottom:-100px;
+      right:-100px;
+      animation-delay:2s;
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp{
+      from{
+        opacity:0;
+        transform:translateY(50px);
+      }
+      to{
+        opacity:1;
+        transform:translateY(0);
+      }
+    }
+
+    @keyframes float{
+      0%,100%{
+        transform:translateY(0);
+      }
+      50%{
+        transform:translateY(-30px);
+      }
+    }
+
+    /* MOBILE */
+    @media(max-width:768px){
+
+      .hero-content h1{
+        font-size:3.5rem;
+        letter-spacing:-1px;
+      }
+
+      .hero-content p{
+        font-size:1rem;
+      }
+
+      .hero-btn{
+        padding:14px 28px;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <section class="hero">
+
+    <!-- VIDEO -->
+    <video autoplay muted loop playsinline>
+      <source src="IMG/Pin.mp4" type="video/mp4">
+    </video>
+
+    <!-- OVERLAY -->
+    <div class="overlay"></div>
+
+    <!-- BLUR EFFECTS -->
+    <div class="blur blur1"></div>
+    <div class="blur blur2"></div>
+
+    <!-- CONTENT -->
+    <div class="hero-content">
+      <h1>ONE PEACE</h1>
+
+      <p>
+        Create modern immersive websites with cinematic backgrounds,
+        premium UI/UX animations, and smooth interactive experiences.
+      </p>
+
+      <a href="#" class="hero-btn">
+        Buy Now
+      </a>
+    </div>
+
+  </section>
+
+</body>
+</html>
