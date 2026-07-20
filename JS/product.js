@@ -25,7 +25,7 @@ const id = params.get("id");
 
 // 🔧 CONFIG: Replace with your WhatsApp business number (with country code, no + or spaces)
 // Example: "223XXXXXXXX" for Mali (+223)
-const WHATSAPP_NUMBER = "918296497428"; // Your WhatsApp business number
+const WHATSAPP_NUMBER = "22370178486"; // Your WhatsApp business number
 
 // Toast notification
 function showToast(message) {
