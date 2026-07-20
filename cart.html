@@ -585,8 +585,67 @@ body {
   font-size: 18px;
 }
 
+/* ===== MOBILE ACTION BAR (CART) ===== */
+.mobile-action-bar {
+  display: none;
+}
+
+.mobile-action-bar .checkout-mobile-btn {
+  width: 100%;
+  padding: 14px;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: inherit;
+}
+
+.mobile-action-bar .checkout-mobile-btn:hover:not(:disabled) {
+  background: var(--primary-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(79, 70, 229, 0.25);
+}
+
+.mobile-action-bar .checkout-mobile-btn:disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+  background: var(--text-muted);
+  box-shadow: none;
+}
+
 /* ===== NAVBAR MOBILE ===== */
 @media (max-width: 768px) {
+  .mobile-action-bar {
+    display: block;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 17px;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-top: 1px solid rgba(226, 232, 240, 0.8);
+    z-index: 999;
+  }
+.mobile-action-bar .checkout-mobile-btn{
+  font-size: 1.3rem;
+  padding:17px;
+}
+#order-summary{
+  display: none;
+}
+  .cart-wrapper {
+    padding-bottom: 110px;
+  }
   .nav-links {
     position: fixed;
     top: 64px;
@@ -680,6 +739,13 @@ body {
 <div class="cart-wrapper">
   <div id="cart-container" class="cart-items"></div>
   <div id="order-summary"></div>
+</div>
+
+<!-- Mobile action bar -->
+<div class="mobile-action-bar" aria-hidden="true">
+  <button class="checkout-mobile-btn" id="checkout-mobile-btn" onclick="checkout()" type="button">
+    <span>Lancer la commande</span>
+  </button>
 </div>
 
 <!-- Toast -->
