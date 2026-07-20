@@ -624,7 +624,8 @@ body {
 /* ===== NAVBAR MOBILE ===== */
 @media (max-width: 768px) {
   .mobile-action-bar {
-    display: block;
+    gap: 10px;
+    display: flex;
     position: fixed;
     left: 0;
     right: 0;
@@ -639,6 +640,13 @@ body {
 .mobile-action-bar .checkout-mobile-btn{
   font-size: 1.3rem;
   padding:17px;
+}.back-btn{
+  font-size: 1.3rem;
+  padding:17px;
+  font-weight: 800;
+  background: transparent;
+  border: 1px solid rgb(144, 142, 142);
+  border-radius: var(--radius-sm);
 }
 #order-summary{
   display: none;
@@ -743,9 +751,17 @@ body {
 
 <!-- Mobile action bar -->
 <div class="mobile-action-bar" aria-hidden="true">
+  <button class="back-btn" onclick="window.location='index.html'">
+    <i class="fas fa-arrow-left"></i>
+  </button>
   <button class="checkout-mobile-btn" id="checkout-mobile-btn" onclick="checkout()" type="button">
     <span>Lancer la commande</span>
   </button>
+  <!-- <button class="checkout-mobile-btn" >
+    <a href="index.html" class="continue-shopping">
+        <i class="fas fa-arrow-left"></i> Continuer vos achats
+      </a>
+  </button> -->
 </div>
 
 <!-- Toast -->
