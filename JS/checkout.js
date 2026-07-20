@@ -304,23 +304,22 @@ function renderSummary(items, total) {
       <h2>Votre commande</h2>
       ${guestNotice}
       ${itemsHtml}
-      <div class="summary-row">
-        <span>Subtotal</span>
-        <span>${total.toLocaleString("en-IN")}F</span>
-      </div>
-      <div class="summary-row">
-        <span>Expédition</span>
-        <span style="color: #10b981; font-weight: 600;">Gratuit</span>
-      </div>
-      <div class="summary-row total">
-        <span>Total</span>
-        <span>${total.toLocaleString("en-IN")}F</span>
-      </div>
+      
       <button type="submit" form="checkout-form" class="place-order-btn">
         <i class="fas fa-lock"></i> Confirmer — ${total.toLocaleString("en-IN")}F
       </button>
     </div>
   `;
+
+  // 🆕 Update Mobile Action Bar with total price
+  const subtotalPriceEl = document.getElementById("subtotal-price");
+  const mobileBtnTextEl = document.getElementById("mobile-place-order-btn-text");
+  if (subtotalPriceEl) {
+    subtotalPriceEl.textContent = `${total.toLocaleString("en-IN")} FCFA`;
+  }
+  if (mobileBtnTextEl) {
+    mobileBtnTextEl.textContent = `Confirmer`;
+  }
 }
 
 function renderEmptyState() {
@@ -345,12 +344,49 @@ form.addEventListener("submit", async (e) => {
 
   const shipping = {
     name: document.getElementById("name").value.trim(),
-    phone: document.getElementById("phone").value.trim(),
+    phone: (() => {
+      const phoneEl = document.getElementById("phone");
+      const countryEl = document.getElementById("phone-country");
+      const labelEl = document.getElementById("phone-country-label");
+
+      // Prefer selected option dataset (works when <select> is updated)
+      const codeFromSelect = countryEl?.selectedOptions?.[0]?.dataset?.code || "";
+
+      // Fallback: parse displayed label like "Mali (+223)"
+      const labelText = labelEl?.textContent || "";
+      const match = labelText.match(/\(\s*(\+\d+)\s*\)/);
+      const codeFromLabel = match ? match[1] : "";
+
+      const code = codeFromSelect || codeFromLabel;
+      const raw = phoneEl?.value?.trim() || "";
+      return code ? `${code} ${raw}`.trim() : raw;
+    })(),
     email: document.getElementById("email").value.trim(),
     address: document.getElementById("address").value.trim(),
     city: document.getElementById("city").value.trim()
   };
   const payment = document.querySelector("input[name='payment']:checked")?.value;
+
+  // If phone prefix selector is present, normalize phone with selected country code
+  // (keeps the visible label in sync with submitted data)
+  const phoneCountrySelect = document.getElementById("phone-country");
+  const phoneInput = document.getElementById("phone");
+  if (phoneInput && phoneCountrySelect) {
+    const opt = phoneCountrySelect.options[phoneCountrySelect.selectedIndex];
+    const code = opt?.dataset?.code || "";
+    const raw = (phoneInput.value || "").replace(/\s+/g, " ").trim();
+
+    // If user already typed a '+' code, don't double-prepend.
+    if (code && raw && !raw.startsWith("+")) {
+      phoneInput.value = `${code}${raw}`.replace(/\s+/g, " ").trim();
+    }
+
+    // If raw starts with code, ensure single space after code.
+    if (code && raw.startsWith(code)) {
+      const rest = raw.slice(code.length).trim();
+      phoneInput.value = `${code}${rest ? " " + rest : ""}`.trim();
+    }
+  }
 
   // Validate required fields
   if (!shipping.name) {
@@ -370,11 +406,27 @@ form.addEventListener("submit", async (e) => {
     return;
   }
 
-  const btn = form.querySelector("button[type='submit']") || document.querySelector(".place-order-btn");
-  if (btn) {
-    btn.disabled = true;
-    btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> En cours...`;
+  const btns = Array.from(
+    form.querySelectorAll("button[type='submit'], .place-order-btn, .mobile-place-order-btn")
+  );
+
+  const desktopBtn = form.querySelector("button[type='submit']") || document.querySelector(".place-order-btn");
+  if (desktopBtn && !btns.includes(desktopBtn)) btns.push(desktopBtn);
+
+  const primaryBtn = btns.find((b) => b && b.type === "submit") || btns[0] || null;
+  if (primaryBtn) {
+    btns.forEach((b) => {
+      if (!b) return;
+      b.disabled = true;
+    });
+    primaryBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> En cours...`;
+    // Also update the mobile button text to show loading
+    const mobileBtnTextEl = document.getElementById("mobile-place-order-btn-text");
+    if (mobileBtnTextEl) {
+      mobileBtnTextEl.textContent = `En cours...`;
+    }
   }
+
 
   try {
     let items = [];
@@ -417,13 +469,22 @@ form.addEventListener("submit", async (e) => {
     }
 
     if (items.length === 0) {
-      showToast("Votre panier est vide.", "fa-exclamation-circle");
-      if (btn) {
-        btn.disabled = false;
-        btn.innerHTML = `<i class="fas fa-lock"></i> Confirmer — ${currentTotal.toLocaleString("en-IN")}F`;
+    showToast("Votre panier est vide.", "fa-exclamation-circle");
+    if (btns.length) {
+      btns.forEach((b) => {
+        if (!b) return;
+        b.disabled = false;
+      });
+      if (primaryBtn) primaryBtn.innerHTML = `<i class="fas fa-lock"></i> Confirmer — ${currentTotal.toLocaleString("en-IN")}F`;
+      const mobileBtnTextEl = document.getElementById("mobile-place-order-btn-text");
+      if (mobileBtnTextEl) {
+        mobileBtnTextEl.textContent = `Confirmer — ${currentTotal.toLocaleString("en-IN")}F`;
       }
-      return;
     }
+    return;
+  }
+
+
 
     const orderData = {
       ...shipping,
@@ -468,10 +529,20 @@ form.addEventListener("submit", async (e) => {
       msg = "Permissions Firebase manquantes. Veuillez mettre à jour les règles Firestore pour autoriser la création de commandes.";
     }
     showToast("La commande a échoué. Veuillez réessayer. (" + msg + ")", "fa-exclamation-circle");
-    if (btn) {
-      btn.disabled = false;
-      btn.innerHTML = `<i class="fas fa-lock"></i> Confirmer — ${orderTotal.toLocaleString("en-IN")}F`;
+    if (btns.length) {
+      btns.forEach((b) => {
+        if (!b) return;
+        b.disabled = false;
+      });
+      if (primaryBtn) {
+        primaryBtn.innerHTML = `<i class="fas fa-lock"></i> Confirmer — ${orderTotal.toLocaleString("en-IN")}F`;
+      }
+      const mobileBtnTextEl = document.getElementById("mobile-place-order-btn-text");
+      if (mobileBtnTextEl) {
+        mobileBtnTextEl.textContent = `Confirmer — ${orderTotal.toLocaleString("en-IN")}F`;
+      }
     }
   }
 });
+
 
