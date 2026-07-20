@@ -202,14 +202,140 @@ body {
 }
 
 /* ===== CHECKOUT LAYOUT ===== */
+
+.phone-input-wrap {
+  display: grid;
+  gap: 10px;
+  align-items: center;
+}
+
+.phone-country {
+  width: 170px;
+  padding: 12px 14px;
+  font-size: 0.95rem;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  outline: none;
+  background: var(--surface);
+  color: var(--text);
+  font-family: inherit;
+  transition: var(--transition);
+}
+
+/* custom trigger (dropdown button) */
+.phone-country-trigger {
+  width: 170px;
+  padding: 12px 14px;
+  font-size: 0.95rem;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  outline: none;
+  background: var(--surface);
+  color: var(--text);
+  font-family: inherit;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.phone-country-trigger:hover {
+  border-color: var(--primary-light);
+  box-shadow: 0 0 0 3px rgba(226, 232, 240, 0.6);
+}
+
+.phone-country-trigger:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+/* hide native select visually, keep it for form submission */
+.phone-country {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* drop-up overlay dropdown */
+.phone-country-dropdown {
+  display: none;
+  position: absolute;
+  width: 170px;
+  bottom: calc(100% + 10px);
+  left: 0;
+  background: rgba(255, 255, 255, 0.98);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  border-radius: 12px;
+  box-shadow: 0 20px 50px rgba(15,23,42,0.18);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  z-index: 10000;
+  overflow: hidden;
+}
+
+.phone-country-dropdown-inner {
+  max-height: 220px;
+  overflow: auto;
+}
+
+.phone-country-item {
+  width: 100%;
+  border: none;
+  background: transparent;
+  padding: 12px 14px;
+  text-align: left;
+  cursor: pointer;
+  color: var(--text);
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.95rem;
+}
+
+.phone-country-item:hover {
+  background: var(--primary-light);
+}
+
+.phone-country-item.selected {
+  background: var(--primary);
+  color: #fff;
+}
+
+
+.phone-country:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.phone-hint {
+  margin-top: 8px;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+@media (max-width: 768px) {
+  .phone-input-wrap {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .phone-country {
+    width: 100%;
+  }
+}
+
 .checkout-wrapper {
   max-width: 1000px;
   margin: 0 auto;
   padding: 0 20px 60px;
-  display: grid;
-  grid-template-columns: 1fr 360px;
+  display: block;
+  /* grid-template-columns: 1fr 300px; */
   gap: 32px;
   align-items: start;
+  width: 100%;
 }
 
 /* ===== FORM CARD ===== */
@@ -219,6 +345,7 @@ body {
   padding: 28px;
   box-shadow: var(--shadow);
   border: 1px solid var(--border);
+  width: 100%;
 }
 
 .section-title {
@@ -619,8 +746,85 @@ body {
   font-size: 18px;
 }
 
+/* ===== MOBILE ACTION BAR ===== */
+.mobile-action-bar {
+  display: none;
+}
+
 /* ===== NAVBAR MOBILE ===== */
 @media (max-width: 768px) {
+  .mobile-action-bar {
+    display: block;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 12px 14px calc(12px + env(safe-area-inset-bottom));
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-top: 1px solid rgba(222, 222, 222, 0.8);
+    z-index: 999;
+  }
+  .summary-row.total{
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text);
+    padding-top: 4px;
+    border-top:0;
+    margin-top: 0px;
+  }
+.summary-row {
+  display: block;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}.summary-row h2{
+  font-weight: 800;
+}.summary-row h4{
+  color: #b91c1c;
+}
+  .mobile-place-order-btn {
+    width: 100%;
+    padding: 17px;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 1.3rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-family: inherit;
+  }
+
+  .mobile-place-order-btn:hover:not(:disabled) {
+    background: var(--primary-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 18px rgba(79, 70, 229, 0.25);
+  }
+
+  .mobile-place-order-btn:disabled {
+    opacity: 0.75;
+    cursor: not-allowed;
+    background: var(--text-muted);
+    box-shadow: none;
+  }
+
+  .checkout-wrapper {
+    padding-bottom: 110px;
+  }
+
+  /* avoid double-submit visuals: hide the desktop button inside the card on mobile */
+  .place-order-btn {
+    display: none;
+  }
   .nav-links {
     position: fixed;
     top: 64px;
@@ -667,6 +871,8 @@ body {
   .order-summary-card {
     position: relative;
     top: 0;
+    margin-top: 10px;
+    margin-bottom: 65px;
   }
 
   .form-row {
@@ -701,13 +907,43 @@ body {
       <div class="form-row">
         <div class="form-group">
           <label for="phone">Numéro de téléphone</label>
-          <input type="tel" id="phone" placeholder="Auto-filled">
+          <div class="phone-input-wrap">
+            <div style="display: flex;">
+              <div>
+                  <button type="button" id="phone-country-trigger" class="phone-country-trigger" aria-haspopup="listbox" aria-expanded="false">
+                  <span id="phone-country-label">Mali (+223)</span>
+                  <i class="fas fa-chevron-up" aria-hidden="true" style="display:none" id="phone-country-chevron-up"></i>
+                  <i class="fas fa-chevron-down" aria-hidden="true" id="phone-country-chevron-down"></i>
+                </button>
+              </div>
+              <div>
+                <input type="tel" id="phone" placeholder="00 00 00 00">
+              </div>
+            </div>
+            
+
+            <div id="phone-country-dropdown" class="phone-country-dropdown" role="listbox" aria-labelledby="phone-country-trigger" aria-hidden="true">
+              <div class="phone-country-dropdown-inner" id="phone-country-dropdown-inner"></div>
+            </div>
+
+            <select id="phone-country" class="phone-country" aria-label="Country code" name="phone-country">
+              <option value="CI" data-code="+225">Côte d'Ivoire (+225)</option>
+              <option value="SN" data-code="+221">Sénégal (+221)</option>
+              <option value="ML" data-code="+223" selected>Mali (+223)</option>
+              <option value="GN" data-code="+224">Guinée (+224)</option>
+              <option value="BF" data-code="+226">Burkina Faso (+226)</option>
+              <option value="TG" data-code="+228">Togo (+228)</option>
+              <option value="GM" data-code="+220">Gambie (+220)</option>
+            </select>
+          </div>
+          <!-- <div class="phone-hint" id="phone-hint">Code détecté : <strong id="phone-code-label">+223</strong></div> -->
         </div>
         <div class="form-group">
           <label for="email">Email</label>
           <input type="email" id="email" placeholder="Auto-filled">
         </div>
       </div>
+
       <div class="form-group">
         <label for="address">Votre address</label>
         <button type="button" id="detect-location-btn" class="detect-location-btn">
@@ -777,6 +1013,19 @@ body {
   <div id="order-summary"></div>
 </div>
 
+<!-- Mobile action bar -->
+<div class="mobile-action-bar" aria-hidden="true">
+  
+  <div class="summary-row total">
+        <h4>Total</h4>
+        <h2 id="subtotal-price"></h2>
+      </div>
+      
+  <button type="submit" form="checkout-form" class="mobile-place-order-btn" id="mobile-place-order-btn" >
+    <span id="mobile-place-order-btn-text">Confirmer</span>
+  </button>
+</div>
+
 <!-- Toast -->
 <div id="toast" class="toast">
   <i class="fas fa-check-circle"></i>
@@ -784,7 +1033,102 @@ body {
 </div>
 
 <!-- Firebase + Scripts -->
-<script type="module">
+  <script type="module">
+  // Phone country dropdown (drop-up) overlay like product.html
+  // Fixed: ensure dropdownInner is populated and positioned relative to trigger
+  (function () {
+    const scriptStart = Date.now();
+    const trigger = document.getElementById("phone-country-trigger");
+    const select = document.getElementById("phone-country");
+    const label = document.getElementById("phone-country-label");
+    const dropdown = document.getElementById("phone-country-dropdown");
+    const dropdownInner = document.getElementById("phone-country-dropdown-inner");
+    // parent for absolute positioning
+    const wrap = trigger?.closest(".phone-input-wrap") || trigger?.parentElement;
+    const chevronUp = document.getElementById("phone-country-chevron-up");
+    const chevronDown = document.getElementById("phone-country-chevron-down");
+
+    // Ensure wrapper is positioned so the overlay appears above trigger reliably
+    if (wrap) wrap.style.position = wrap.style.position || 'relative';
+    if (!trigger || !select || !label || !dropdown || !dropdownInner) return;
+
+    function syncLabel() {
+      const opt = select.options[select.selectedIndex];
+      if (!opt) return;
+      label.textContent = opt.text;
+
+      const code = opt.dataset?.code || "";
+      const phoneHintCode = document.getElementById("phone-code-label");
+      if (phoneHintCode && code) phoneHintCode.textContent = code;
+
+      const hint = document.getElementById("phone-hint");
+      if (hint && code) hint.style.display = "block";
+    }
+
+    function renderDropdown() {
+      dropdownInner.innerHTML = "";
+      Array.from(select.options).forEach((opt) => {
+        const item = document.createElement("button");
+        item.type = "button";
+        item.className = "phone-country-item";
+        item.setAttribute("role", "option");
+        item.dataset.value = opt.value;
+        item.dataset.code = opt.dataset?.code || "";
+
+        item.innerHTML = `<span>${opt.text}</span>`;
+
+        if (opt.selected) item.classList.add("selected");
+
+        item.addEventListener("click", () => {
+          select.value = opt.value;
+          select.dispatchEvent(new Event("change"));
+          closeDropdown();
+        });
+
+        dropdownInner.appendChild(item);
+      });
+    }
+
+    function openDropdown() {
+      dropdown.style.display = "block";
+      dropdown.setAttribute("aria-hidden", "false");
+      trigger.setAttribute("aria-expanded", "true");
+      if (chevronUp) chevronUp.style.display = "inline";
+      if (chevronDown) chevronDown.style.display = "none";
+    }
+
+    function closeDropdown() {
+      dropdown.style.display = "none";
+      dropdown.setAttribute("aria-hidden", "true");
+      trigger.setAttribute("aria-expanded", "false");
+      if (chevronUp) chevronUp.style.display = "none";
+      if (chevronDown) chevronDown.style.display = "inline";
+    }
+
+    trigger.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const isOpen = dropdown.style.display === "block";
+      if (isOpen) closeDropdown();
+      else openDropdown();
+    });
+
+    document.addEventListener("click", () => {
+      closeDropdown();
+    });
+
+    select.addEventListener("change", () => {
+      // update selected styles + label/code
+      Array.from(dropdownInner.querySelectorAll(".phone-country-item")).forEach((btn) => {
+        btn.classList.toggle("selected", btn.dataset.value === select.value);
+      });
+      syncLabel();
+    });
+
+    renderDropdown();
+    syncLabel();
+    closeDropdown();
+  })();
+
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
   import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
 
