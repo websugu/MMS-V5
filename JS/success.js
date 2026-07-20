@@ -61,7 +61,7 @@ async function loadLatestOrder(uid) {
   }
 }
 
-const WHATSAPP_NUMBER = "918296497428";
+const WHATSAPP_NUMBER = "22370178486";
 
 function renderOrder(id, data) {
   const container = document.getElementById("order-info");
