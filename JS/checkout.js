@@ -19,7 +19,7 @@ let orderTotal = 0;
 let isGuest = false;
 let cartItems = [];
 
-const WHATSAPP_NUMBER = "918296497428";
+const WHATSAPP_NUMBER = "22370178486";
 
 // 🌍 Detect current location and fill address fields
 const detectLocationBtn = document.getElementById("detect-location-btn");
