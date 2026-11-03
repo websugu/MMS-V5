@@ -1,6 +1,6 @@
 {
-  "name": "My Store - Mon Manga Store",
-  "short_name": "MMS",
+  "name": "Oncase - Coques pour iPhone et Posters haut de gamme",
+  "short_name": "Oncase",
   "description": "Boutique en ligne pour coques iPhone et accessoires",
   "start_url": "/index.html",
   "display": "standalone",
@@ -11,19 +11,19 @@
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "IMG/favicon.png",
+      "src": "IMG/oncase-nav-logo.png",
       "sizes": "192x192 512x512",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "IMG/favicon.png",
+      "src": "IMG/oncase-nav-logo.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "IMG/favicon.png",
+      "src": "IMG/oncase-nav-logo.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
