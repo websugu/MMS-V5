@@ -75,7 +75,7 @@ export async function renderNavbar() {
     <nav class="main-nav">
       <div class="nav-container">
         <a href="index.html" class="nav-logo">
-          <img src="IMG/store-logo-nav.png" width="150">
+          <img src="IMG/oncase-nav-logo.png" width="150">
         </a>
 
         
